@@ -412,7 +412,7 @@ with col1:
     profondeur = st.slider("Profondeur max (mètres)", min_value=5, max_value=60, value=20, step=1)
     duree = st.slider("Durée avant remontée (mn)", min_value=1, max_value=60, value=30, step=1)
     
-    # === SECTION PLONGÉES SUCCESSIVES ===
+    # SECTION PLONGÉES SUCCESSIVES
     
     plongee_successive = st.checkbox("Cette plongée fait partie d'un groupe de plongées successives")
     
@@ -432,7 +432,7 @@ with col1:
         
         with col1b:
             intervalle_surface = st.slider(
-                "Intervalle de surface (minutes)", 
+                "Intervalle de surface (mn)", 
                 min_value=15, 
                 max_value=720, 
                 value=60, 
@@ -465,7 +465,7 @@ with col1:
                 st.error("⚠ Table de majoration non disponible")
             majoration = 0
     
-    # === AUTRES PARAMÈTRES ===
+    # AUTRES PARAMÈTRES
     
     vitesse_remontee = st.slider("Vitesse de remontée (mètres/mn)", min_value=5, max_value=20, value=10, step=1)
     sac = st.slider("Consommation du plongeur (litres/mn)", min_value=10, max_value=30, value=20, step=1)
@@ -559,6 +559,7 @@ with col2:
                     bars_restants_real = air_remaining.get('bars_restants_real', air_remaining['bars_restants'])
                     
                     if bars_restants_real >= reserve_securite:
+
                         # Situation 1: Plongée réalisable
                         message = f"""**Plongée réalisable**  
 **Air disponible : {air_remaining['air_dispo_total']} litres**  
@@ -569,6 +570,7 @@ with col2:
                         st.success(message)
                         
                     elif bars_restants_real > 0:
+
                         # Situation 2: Réserve insuffisante
                         message = f"""**Réserve insuffisante !**  
 **Air disponible : {air_remaining['air_dispo_total']} litres**  
@@ -579,6 +581,7 @@ with col2:
                         st.warning(message)
                         
                     else:
+
                         # Situation 3: Plongée impossible
                         message = f"""**Plongée impossible !!**  
 **Air disponible : {air_remaining['air_dispo_total']} litres**  
@@ -608,7 +611,7 @@ with col2:
                         st.markdown(pression_details)
 
                         ##########################################################################################
-                        st.info("**Calculs de temps**")
+                        st.info("**Calculs de durées**")
                         ##########################################################################################
 
                         temps_details = ""
@@ -633,7 +636,7 @@ with col2:
                         st.markdown(temps_details)
 
                         ##########################################################################################
-                        st.info("**Consommation d'air (en équivalent surface)**")
+                        st.info("**Consommation d'air (en équivalent-surface)**")
                         ##########################################################################################
 
                         conso_details = f"""
@@ -685,7 +688,7 @@ with col2:
                         if plongee_successive and azote_info and not azote_info['error']:
 
                             ##########################################################################################
-                            st.info("**Calcul de l'azote résiduelle et majoration**")
+                            st.info("**Calcul de l'azote résiduelle et de la majoration**")
                             ##########################################################################################
 
                             azote_details = f"""
@@ -772,9 +775,9 @@ st.markdown("""
 <div style="margin-top: 2rem; padding: 1rem; border-top: 1px solid #e9ecef; text-align: center;">
     <p style="font-size: 0.75rem; color: #6c757d; margin: 0; line-height: 1.3;">
         <em><strong>Note importante :</strong> Cet outil est à vocation essentiellement pédagogique. 
-        Les calculs et les résultats présentés ne sont pas garantis et l'auteur n'engage pas sa responsabilité 
-        quant à leur utilisation dans le cadre de plongées effectives. Utilisez toujours des tables 
-        officielles certifiées MN90 et consultez un professionnel qualifié pour planifier vos plongées.</em>
+        Les calculs et les résultats présentés n'engage pas la responsabilité  de l'auteur quant à
+        leur utilisation dans le cadre de plongées effectives. Utilisez toujours des tables officielles
+        certifiées MN90 et consultez un professionnel qualifié pour vous aider à planifier vos plongées.</em>
     </p>
 </div>
 """, unsafe_allow_html=True)
