@@ -597,13 +597,13 @@ with col2:
 
                         pression_details = f"""
 **Pression absolue maximale :** {air_calc['pressure_max']} bars  
-*Formule : (Profondeur ÷ 10) + 1 = ({profondeur} ÷ 10) + 1 = {air_calc['pressure_max']} bars*
+*Formule : Profondeur ÷ 10 + 1 = {profondeur} ÷ 10 + 1 = {air_calc['pressure_max']} bars*
 
 **Consommation au fond :** {air_calc['conso_max']} litres/mn  
 *Formule : SAC × Pression absolue = {sac} × {air_calc['pressure_max']} = {air_calc['conso_max']} litres/mn*
 
 **Consommation à mi-profondeur :** {air_calc['conso_mi_prof']:.1f} litres/mn  
-*Formule : SAC × ((Profondeur ÷ 2) ÷ 10 + 1) = {sac} × (({profondeur} ÷ 2) ÷ 10 + 1) = {air_calc['conso_mi_prof']:.1f} litres/mn*"""
+*Formule : SAC × (Profondeur ÷ 2 ÷ 10 + 1) = {sac} × ({profondeur} ÷ 2 ÷ 10 + 1) = {air_calc['conso_mi_prof']:.1f} litres/mn*"""
                         
                         st.markdown(pression_details)
 
@@ -615,7 +615,7 @@ with col2:
                         if majoration > 0:
                             temps_details = f"""
 **Durée effective pour les calculs :** {duree} mn + {majoration} mn (majo) = {duree_totale} minutes  
-*Voir plus bas : Calcul de l'azote résiduelle et majoration*"""
+*Voir plus bas pour le calcul de l'azote résiduelle et de la majoration*"""
 
                         temps_details += f"""
                         
@@ -624,8 +624,8 @@ with col2:
 
 **Durée des paliers :** {air_calc['duree_paliers']} minutes
 
-**DTR (Durée Totale Remontée) :** {air_calc['dtr']} minutes  
-*Formule : Temps de remontée + Temps des paliers = {air_calc['duree_remontee']:.1f} + {air_calc['duree_paliers']} = {air_calc['dtr']} minutes*
+**Durée Totale Remontée (DTR) :** {air_calc['dtr']} minutes  
+*Formule : Temps des paliers + Temps de remontée = {air_calc['duree_paliers']} + {air_calc['duree_remontee']:.1f} = {air_calc['dtr']} minutes*
 
 **Temps total de plongée :** {air_calc['temps_total_plongee']} minutes  
 *Formule : Durée au fond + DTR = {duree_totale} + {air_calc['dtr']} = {air_calc['temps_total_plongee']} minutes*"""
@@ -707,7 +707,7 @@ with col2:
 **Explication de la majoration :**  
 L'azote résiduelle de {azote_info['azote']} indique qu'il reste de l'azote dissous dans vos tissus depuis la plongée précédente. Cette valeur est utilisée avec la profondeur de {profondeur}m pour déterminer la majoration de temps dans la table MN90.
 
-**Logique de sélection de l'intervalle :**  
+**Logique de sélection de l'intervalle de surface :**  
 Les tables MN90 utilisent l'intervalle immédiatement inférieur quand l'intervalle exact n'existe pas. Pour {intervalle_surface}min demandés, la table utilise {azote_info['intervalle_utilise']}min (valeur sécuritaire)."""
 
                             if majoration_info and not majoration_info['error']:
@@ -715,8 +715,8 @@ Les tables MN90 utilisent l'intervalle immédiatement inférieur quand l'interva
 
 **Logique de la table majoration :**  
 Pour une azote résiduelle de {azote_info['azote']} et une profondeur de {profondeur}m, la table MN90 sélectionne :
-- La ligne N2 = {majoration_info['majo_utilisee']} (valeur égale ou juste supérieure à {azote_info['azote']})
-- La colonne {majoration_info['profondeur_utilisee']}m (profondeur égale ou juste supérieure à {profondeur}m)
+- Azote = {majoration_info['majo_utilisee']} (valeur égale ou supérieure à {azote_info['azote']})
+- Profondeur = {majoration_info['profondeur_utilisee']}m (valeur égale ou supérieure à {profondeur}m)
 - Résultat : majoration de {majoration_info['majoration']} minutes"""
                             
                             st.markdown(azote_details)
@@ -730,13 +730,13 @@ Pour une azote résiduelle de {azote_info['azote']} et une profondeur de {profon
 À {profondeur}m, vos poumons sont comprimés par {air_calc['pressure_max']} fois plus que en surface. Pour les remplir, votre détendeur doit fournir de l'air à la même pression que l'eau environnante.
 
 **Pourquoi calculer l'équivalent surface ?**  
-Les volumes sont exprimés en "équivalent surface" car c'est ainsi qu'on mesure l'air dans une bouteille. 1 litre d'air à {profondeur}m représente {air_calc['pressure_max']} litres prélevés du bloc.
+Les volumes sont exprimés en "équivalent surface" car c'est ainsi qu'on mesure l'air comprimée dans une bouteille. 1 litre d'air à {profondeur}m représente {air_calc['pressure_max']} litres en surface.
 
 **Qu'est-ce que la pression de décollage ?**  
 La pression de décollage ({air_remaining['pression_decollage']} bars) est la pression restante dans votre bloc au moment où vous commencez la remontée. C'est un indicateur utile pour vérifier si vous avez assez d'air pour effectuer la remontée et les paliers en toute sécurité.
 
 **Pourquoi une consommation à mi-profondeur pour la remontée ?**  
-Pendant la remontée, la pression diminue progressivement. La consommation à mi-profondeur ({air_calc['conso_mi_prof']:.1f} L/min) est une approximation de cette consommation décroissante."""
+Pendant la remontée, la pression diminue progressivement. La consommation à mi-profondeur ({air_calc['conso_mi_prof']:.1f} litres/mn) est une approximation de cette consommation décroissante."""
                         
                         st.markdown(notes_pedago)
 
@@ -771,10 +771,10 @@ with col4:
 st.markdown("""
 <div style="margin-top: 2rem; padding: 1rem; border-top: 1px solid #e9ecef; text-align: center;">
     <p style="font-size: 0.75rem; color: #6c757d; margin: 0; line-height: 1.3;">
-        <em><strong>Note importante :</strong> Cet outil a une vocation essentiellement pédagogique. 
+        <em><strong>Note importante :</strong> Cet outil est à vocation essentiellement pédagogique. 
         Les calculs et les résultats présentés ne sont pas garantis et l'auteur n'engage pas sa responsabilité 
         quant à leur utilisation dans le cadre de plongées effectives. Utilisez toujours des tables 
-        officielles certifiées et consultez un professionnel qualifié pour planifier vos plongées.</em>
+        officielles certifiées MN90 et consultez un professionnel qualifié pour planifier vos plongées.</em>
     </p>
 </div>
 """, unsafe_allow_html=True)
