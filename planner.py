@@ -600,13 +600,15 @@ with col2:
 
                         pression_details = f"""
 **Pression absolue maximale :** {air_calc['pressure_max']} bars  
-*Formule : Profondeur ÷ 10 + 1 = {profondeur} ÷ 10 + 1 = {air_calc['pressure_max']} bars*
+*Calcul : Profondeur ÷ 10 + 1 = {profondeur} ÷ 10 + 1 = {air_calc['pressure_max']} bars*
+
+**Consommation du plongeur en surface (SAC) :** {sac} litres/mn
 
 **Consommation au fond :** {air_calc['conso_max']} litres/mn  
-*Formule : SAC × Pression absolue = {sac} × {air_calc['pressure_max']} = {air_calc['conso_max']} litres/mn*
+*Calcul : SAC × Pression absolue = {sac} × {air_calc['pressure_max']} = {air_calc['conso_max']} litres/mn*
 
 **Consommation à mi-profondeur :** {air_calc['conso_mi_prof']:.1f} litres/mn  
-*Formule : SAC × (Profondeur ÷ 2 ÷ 10 + 1) = {sac} × ({profondeur} ÷ 2 ÷ 10 + 1) = {air_calc['conso_mi_prof']:.1f} litres/mn*"""
+*Calcul : SAC × (Profondeur ÷ 2 ÷ 10 + 1) = {sac} × ({profondeur} ÷ 2 ÷ 10 + 1) = {air_calc['conso_mi_prof']:.1f} litres/mn*"""
                         
                         st.markdown(pression_details)
 
@@ -623,15 +625,15 @@ with col2:
                         temps_details += f"""
                         
 **Durée de remontée (sans paliers) :** {air_calc['duree_remontee']:.1f} minutes  
-*Formule : Profondeur ÷ Vitesse de remontée = {profondeur} ÷ {vitesse_remontee} = {air_calc['duree_remontee']:.1f} minutes*
+*Calcul : Profondeur ÷ Vitesse de remontée = {profondeur} ÷ {vitesse_remontee} = {air_calc['duree_remontee']:.1f} minutes*
 
 **Durée des paliers :** {air_calc['duree_paliers']} minutes
 
 **Durée totale de remontée (DTR) :** {air_calc['dtr']} minutes  
-*Formule : Durée de remontée + Durée des paliers = {air_calc['duree_remontee']:.1f} + {air_calc['duree_paliers']} = {air_calc['dtr']} minutes*
+*Calcul : Durée de remontée + Durée des paliers = {air_calc['duree_remontee']:.1f} + {air_calc['duree_paliers']} = {air_calc['dtr']} minutes*
 
 **Durée totale de plongée :** {air_calc['temps_total_plongee']} minutes  
-*Formule : Durée au fond + DTR = {duree_totale} + {air_calc['dtr']} = {air_calc['temps_total_plongee']} minutes*"""
+*Calcul : Durée au fond + DTR = {duree_totale} + {air_calc['dtr']} = {air_calc['temps_total_plongee']} minutes*"""
                         
                         st.markdown(temps_details)
 
@@ -641,10 +643,10 @@ with col2:
 
                         conso_details = f"""
 **Volume consommé au fond :** {air_calc['volume_plongee']} litres  
-*Formule : Durée au fond × Consommation maximale = {duree_totale} × {air_calc['conso_max']} = {air_calc['volume_plongee']} litres*
+*Calcul : Durée au fond × Consommation maximale = {duree_totale} × {air_calc['conso_max']} = {air_calc['volume_plongee']} litres*
 
 **Volume consommé pendant la remontée :** {air_calc['volume_remontee']} litres  
-*Formule : Durée remontée × Consommation mi-prof = {air_calc['duree_remontee']:.1f} × {air_calc['conso_mi_prof']:.1f} = {air_calc['volume_remontee']} litres*
+*Calcul : Durée remontée × Consommation mi-prof = {air_calc['duree_remontee']:.1f} × {air_calc['conso_mi_prof']:.1f} = {air_calc['volume_remontee']} litres*
 
 **Volume consommé pendant les paliers :** {air_calc['volume_paliers']} litres"""
                         
@@ -664,12 +666,12 @@ with col2:
 
                         bilan_details = f"""
 **Voume total disponible :** {air_remaining['air_dispo_total']} litres  
-*Formule : Capacité bloc × Pression gonflage = {capacite_bloc} × {pression_gonflage} = {air_remaining['air_dispo_total']} litres*
+*Calcul : Capacité bloc × Pression gonflage = {capacite_bloc} × {pression_gonflage} = {air_remaining['air_dispo_total']} litres*
 
 **Volume consommé au fond :** {air_calc['volume_plongee']} litres
 
 **Pression de décollage :** {air_remaining['pression_decollage']} bars  
-*Formule : (Air disponible - Air consommé au fond) ÷ Capacité bloc = ({air_remaining['air_dispo_total']} - {air_calc['volume_plongee']}) ÷ {capacite_bloc} = {air_remaining['pression_decollage']} bars*
+*Calcul : (Air disponible - Air consommé au fond) ÷ Capacité bloc = ({air_remaining['air_dispo_total']} - {air_calc['volume_plongee']}) ÷ {capacite_bloc} = {air_remaining['pression_decollage']} bars*
 
 **Volume total consommé :** {air_calc['volume_total']} litres  
 *Somme : Au fond + Remontée + Paliers = {air_calc['volume_plongee']} + {air_calc['volume_remontee']} + {air_calc['volume_paliers']} = {air_calc['volume_total']} litres*
@@ -678,7 +680,7 @@ with col2:
 *Calcul : Air disponible - Air consommé = {air_remaining['air_dispo_total']} - {air_calc['volume_total']} = {air_remaining['air_reste_litres']} litres*
 
 **Pression restante dans le bloc :** {air_remaining['bars_restants']} bars  
-*Formule : Air restant ÷ Capacité bloc = {air_remaining['air_reste_litres']} ÷ {capacite_bloc} = {air_remaining['bars_restants']} bars*
+*Calcul : Air restant ÷ Capacité bloc = {air_remaining['air_reste_litres']} ÷ {capacite_bloc} = {air_remaining['bars_restants']} bars*
 
 **Réserve de sécurité requise :** {reserve_securite} bars  
 **Marge ou déficit de pression :** {air_remaining['marge_ou_deficit']:+.1f} bars"""
