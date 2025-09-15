@@ -611,7 +611,7 @@ with col2:
                         st.markdown(pression_details)
 
                         ##########################################################################################
-                        st.info("**Calculs de durées**")
+                        st.info("**Calculs des durées**")
                         ##########################################################################################
 
                         temps_details = ""
@@ -663,7 +663,7 @@ with col2:
                         ##########################################################################################
 
                         bilan_details = f"""
-**Air total disponible :** {air_remaining['air_dispo_total']} litres  
+**Voume total disponible :** {air_remaining['air_dispo_total']} litres  
 *Formule : Capacité bloc × Pression gonflage = {capacite_bloc} × {pression_gonflage} = {air_remaining['air_dispo_total']} litres*
 
 **Volume consommé au fond :** {air_calc['volume_plongee']} litres
@@ -674,7 +674,7 @@ with col2:
 **Volume total consommé :** {air_calc['volume_total']} litres  
 *Somme : Au fond + Remontée + Paliers = {air_calc['volume_plongee']} + {air_calc['volume_remontee']} + {air_calc['volume_paliers']} = {air_calc['volume_total']} litres*
 
-**Air restant après plongée :** {air_remaining['air_reste_litres']} litres  
+**Volume restant après la plongée :** {air_remaining['air_reste_litres']} litres  
 *Calcul : Air disponible - Air consommé = {air_remaining['air_dispo_total']} - {air_calc['volume_total']} = {air_remaining['air_reste_litres']} litres*
 
 **Pression restante dans le bloc :** {air_remaining['bars_restants']} bars  
@@ -775,7 +775,7 @@ st.markdown("""
 <div style="margin-top: 2rem; padding: 1rem; border-top: 1px solid #e9ecef; text-align: center;">
     <p style="font-size: 0.75rem; color: #6c757d; margin: 0; line-height: 1.3;">
         <em><strong>Note importante :</strong> Cet outil est à vocation essentiellement pédagogique. 
-        Les calculs et les résultats présentés n'engage pas la responsabilité  de l'auteur quant à
+        Les calculs et les résultats présentés n'engagent pas la responsabilité  de l'auteur quant à
         leur utilisation dans le cadre de plongées effectives. Utilisez toujours des tables officielles
         certifiées MN90 et consultez un professionnel qualifié pour vous aider à planifier vos plongées.</em>
     </p>
