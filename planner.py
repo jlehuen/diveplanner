@@ -674,7 +674,7 @@ with col2:
 *Calcul : (Air disponible - Air consommé au fond) ÷ Capacité bloc = ({air_remaining['air_dispo_total']} - {air_calc['volume_plongee']}) ÷ {capacite_bloc} = {air_remaining['pression_decollage']} bars*
 
 **Volume total consommé :** {air_calc['volume_total']} litres  
-*Somme : Au fond + Remontée + Paliers = {air_calc['volume_plongee']} + {air_calc['volume_remontee']} + {air_calc['volume_paliers']} = {air_calc['volume_total']} litres*
+*Calcul : Au fond + Remontée + Paliers = {air_calc['volume_plongee']} + {air_calc['volume_remontee']} + {air_calc['volume_paliers']} = {air_calc['volume_total']} litres*
 
 **Volume restant après la plongée :** {air_remaining['air_reste_litres']} litres  
 *Calcul : Air disponible - Air consommé = {air_remaining['air_dispo_total']} - {air_calc['volume_total']} = {air_remaining['air_reste_litres']} litres*
