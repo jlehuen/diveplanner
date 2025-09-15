@@ -1,8 +1,7 @@
 ##########################################################################################
 # PLANIFICATEUR DE PLONGÉE
 # Auteur: Jérôme Lehuen
-# Assistant: Antropic Claude (IA)
-# Version: 0.3 (14/09/2025)
+# Version: 0.4 (15/09/2025)
 ##########################################################################################
 
 import streamlit as st
@@ -591,41 +590,61 @@ with col2:
                     
                     # Détails techniques
                     with st.expander("Détails des calculs"):
-                        if majoration > 0:
-                            st.info(f"**Durée effective pour les calculs :** {duree} mn + {majoration} mn = {duree_totale} mn")
 
-                        st.markdown("### 🤿 **Calculs de pression et consommation**")
-                        pression_details = f"""**Pression absolue maximale :** {air_calc['pressure_max']} bars  
+                        ##########################################################################################
+                        st.info("**Calculs de pression et consommation**")
+                        ##########################################################################################
+
+                        pression_details = f"""
+**Pression absolue maximale :** {air_calc['pressure_max']} bars  
 *Formule : (Profondeur ÷ 10) + 1 = ({profondeur} ÷ 10) + 1 = {air_calc['pressure_max']} bars*
 
-**Consommation au fond :** {air_calc['conso_max']} litres/min  
-*Formule : SAC × Pression absolue = {sac} × {air_calc['pressure_max']} = {air_calc['conso_max']} litres/min*
+**Consommation au fond :** {air_calc['conso_max']} litres/mn  
+*Formule : SAC × Pression absolue = {sac} × {air_calc['pressure_max']} = {air_calc['conso_max']} litres/mn*
 
-**Consommation à mi-profondeur :** {air_calc['conso_mi_prof']:.1f} litres/min  
-*Formule : SAC × ((Profondeur ÷ 2) ÷ 10 + 1) = {sac} × (({profondeur} ÷ 2) ÷ 10 + 1) = {air_calc['conso_mi_prof']:.1f} litres/min*"""
+**Consommation à mi-profondeur :** {air_calc['conso_mi_prof']:.1f} litres/mn  
+*Formule : SAC × ((Profondeur ÷ 2) ÷ 10 + 1) = {sac} × (({profondeur} ÷ 2) ÷ 10 + 1) = {air_calc['conso_mi_prof']:.1f} litres/mn*"""
+                        
                         st.markdown(pression_details)
 
-                        st.markdown("### ⏱️ **Calculs de temps et DTR**")
-                        temps_details = f"""**Durée de remontée libre :** {air_calc['duree_remontee']:.1f} minutes  
-*Formule : Profondeur ÷ Vitesse de remontée = {profondeur} ÷ {vitesse_remontee} = {air_calc['duree_remontee']:.1f} min*
+                        ##########################################################################################
+                        st.info("**Calculs de temps et DTR**")
+                        ##########################################################################################
+
+                        temps_details = ""
+                        if majoration > 0:
+                            temps_details = f"""
+**Durée effective pour les calculs :** {duree} mn + {majoration} mn (majo) = {duree_totale} minutes  
+*Voir plus bas : Calcul de l'azote résiduelle et majoration*"""
+
+                        temps_details += f"""
+                        
+**Durée de remontée libre :** {air_calc['duree_remontee']:.1f} minutes  
+*Formule : Profondeur ÷ Vitesse de remontée = {profondeur} ÷ {vitesse_remontee} = {air_calc['duree_remontee']:.1f} minutes*
 
 **Durée des paliers :** {air_calc['duree_paliers']} minutes
 
 **DTR (Durée Totale Remontée) :** {air_calc['dtr']} minutes  
-*Formule : Temps de remontée + Temps des paliers = {air_calc['duree_remontee']:.1f} + {air_calc['duree_paliers']} = {air_calc['dtr']} min*
+*Formule : Temps de remontée + Temps des paliers = {air_calc['duree_remontee']:.1f} + {air_calc['duree_paliers']} = {air_calc['dtr']} minutes*
 
 **Temps total de plongée :** {air_calc['temps_total_plongee']} minutes  
-*Formule : Durée au fond + DTR = {duree_totale} + {air_calc['dtr']} = {air_calc['temps_total_plongee']} min*"""
+*Formule : Durée au fond + DTR = {duree_totale} + {air_calc['dtr']} = {air_calc['temps_total_plongee']} minutes*"""
+                        
                         st.markdown(temps_details)
 
-                        st.markdown("### 🫧 **Consommation d'air (équivalent surface)**")
-                        conso_details = f"""**Volume consommé au fond :** {air_calc['volume_plongee']} litres  
+                        ##########################################################################################
+                        st.info("**Consommation d'air (équivalent surface)**")
+                        ##########################################################################################
+
+                        conso_details = f"""
+**Volume consommé au fond :** {air_calc['volume_plongee']} litres  
 *Formule : Durée au fond × Consommation maximale = {duree_totale} × {air_calc['conso_max']} = {air_calc['volume_plongee']} litres*
 
 **Volume consommé pendant la remontée :** {air_calc['volume_remontee']} litres  
 *Formule : Durée remontée × Consommation mi-prof = {air_calc['duree_remontee']:.1f} × {air_calc['conso_mi_prof']:.1f} = {air_calc['volume_remontee']} litres*
 
 **Volume consommé pendant les paliers :** {air_calc['volume_paliers']} litres"""
+                        
                         st.markdown(conso_details)
                         
                         if air_calc['palier_details']:
@@ -633,10 +652,15 @@ with col2:
                             for p in air_calc['palier_details']:
                                 pression_palier = p['pression']
                                 paliers_text += f"• **{p['profondeur']}m** : Pression {pression_palier} bars → {sac} × {pression_palier} = {p['conso_min']:.1f} L/min × {p['duree']} min = **{p['volume']} litres**  \n"
+                            
                             st.markdown(paliers_text)
 
-                        st.markdown("### ⚡ **Bilan de l'air disponible**")
-                        bilan_details = f"""**Air total disponible :** {air_remaining['air_dispo_total']} litres  
+                        ##########################################################################################
+                        st.info("**Bilan de l'air disponible**")
+                        ##########################################################################################
+
+                        bilan_details = f"""
+**Air total disponible :** {air_remaining['air_dispo_total']} litres  
 *Formule : Capacité bloc × Pression gonflage = {capacite_bloc} × {pression_gonflage} = {air_remaining['air_dispo_total']} litres*
 
 **Volume consommé au fond :** {air_calc['volume_plongee']} litres
@@ -655,25 +679,17 @@ with col2:
 
 **Réserve de sécurité requise :** {reserve_securite} bars  
 **Marge ou déficit de pression :** {air_remaining['marge_ou_deficit']:+.1f} bars"""
+                        
                         st.markdown(bilan_details)
-
-                        st.markdown("### 📚 **Notes pédagogiques**")
-                        notes_pedago = f"""**Pourquoi la pression influence la consommation ?**  
-À {profondeur}m, vos poumons sont comprimés par {air_calc['pressure_max']} fois plus que en surface. Pour les remplir, votre détendeur doit fournir de l'air à la même pression que l'eau environnante.
-
-**Pourquoi calculer l'équivalent surface ?**  
-Les volumes sont exprimés en "équivalent surface" car c'est ainsi qu'on mesure l'air dans une bouteille. 1 litre d'air à {profondeur}m représente {air_calc['pressure_max']} litres prélevés du bloc.
-
-**Qu'est-ce que la pression de décollage ?**  
-La pression de décollage ({air_remaining['pression_decollage']} bars) est la pression restante dans votre bloc au moment où vous commencez la remontée. C'est un indicateur utile pour vérifier si vous avez assez d'air pour effectuer la remontée et les paliers en toute sécurité.
-
-**Pourquoi une consommation à mi-profondeur pour la remontée ?**  
-Pendant la remontée, la pression diminue progressivement. La consommation à mi-profondeur ({air_calc['conso_mi_prof']:.1f} L/min) est une approximation de cette consommation décroissante."""
-                        st.markdown(notes_pedago)
                         
                         if plongee_successive and azote_info and not azote_info['error']:
-                            st.markdown("### 🔄 **Plongées successives - Calcul de l'azote résiduelle et majoration**")
-                            azote_details = f"""**GPS de la plongée précédente :** {gps_precedent}  
+
+                            ##########################################################################################
+                            st.info("**Calcul de l'azote résiduelle et majoration**")
+                            ##########################################################################################
+
+                            azote_details = f"""
+**GPS de la plongée précédente :** {gps_precedent}  
 **Intervalle de surface demandé :** {intervalle_surface} minutes  
 **Intervalle utilisé dans la table :** {azote_info['intervalle_utilise']} minutes  
 **Méthode de recherche :** {azote_info['methode']}  
@@ -681,9 +697,6 @@ Pendant la remontée, la pression diminue progressivement. La consommation à mi
 
                             if majoration_info and not majoration_info['error']:
                                 azote_details += f"""  
-**Majoration trouvée dans la table :** {majoration_info['majoration']} minutes  
-**Ligne azote résiduelle utilisée :** {majoration_info['majo_utilisee']} (>= {azote_info['azote']})  
-**Colonne profondeur utilisée :** {majoration_info['profondeur_utilisee']}m (>= {profondeur}m)  
 **Majoration appliquée :** {majoration} minutes"""
                             else:
                                 azote_details += f"""  
@@ -707,6 +720,25 @@ Pour une azote résiduelle de {azote_info['azote']} et une profondeur de {profon
 - Résultat : majoration de {majoration_info['majoration']} minutes"""
                             
                             st.markdown(azote_details)
+
+                        ##########################################################################################
+                        st.info("**Notes pédagogiques**")
+                        ##########################################################################################
+
+                        notes_pedago = f"""
+**Pourquoi la pression influence la consommation ?**  
+À {profondeur}m, vos poumons sont comprimés par {air_calc['pressure_max']} fois plus que en surface. Pour les remplir, votre détendeur doit fournir de l'air à la même pression que l'eau environnante.
+
+**Pourquoi calculer l'équivalent surface ?**  
+Les volumes sont exprimés en "équivalent surface" car c'est ainsi qu'on mesure l'air dans une bouteille. 1 litre d'air à {profondeur}m représente {air_calc['pressure_max']} litres prélevés du bloc.
+
+**Qu'est-ce que la pression de décollage ?**  
+La pression de décollage ({air_remaining['pression_decollage']} bars) est la pression restante dans votre bloc au moment où vous commencez la remontée. C'est un indicateur utile pour vérifier si vous avez assez d'air pour effectuer la remontée et les paliers en toute sécurité.
+
+**Pourquoi une consommation à mi-profondeur pour la remontée ?**  
+Pendant la remontée, la pression diminue progressivement. La consommation à mi-profondeur ({air_calc['conso_mi_prof']:.1f} L/min) est une approximation de cette consommation décroissante."""
+                        
+                        st.markdown(notes_pedago)
 
 ##########################################################################################
 # Section avertissements et conseils de sécurité
@@ -742,8 +774,7 @@ st.markdown("""
         <em><strong>Note importante :</strong> Cet outil a une vocation essentiellement pédagogique. 
         Les calculs et les résultats présentés ne sont pas garantis et l'auteur n'engage pas sa responsabilité 
         quant à leur utilisation dans le cadre de plongées effectives. Utilisez toujours des tables 
-        officielles certifiées et consultez un professionnel qualifié pour planifier vos plongées. 
-        Pour les plongées successives, vérifiez systématiquement avec les tables MN90 officielles.</em>
+        officielles certifiées et consultez un professionnel qualifié pour planifier vos plongées.</em>
     </p>
 </div>
 """, unsafe_allow_html=True)
