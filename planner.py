@@ -592,7 +592,7 @@ with col2:
                     with st.expander("Détails des calculs"):
 
                         ##########################################################################################
-                        st.info("**Calculs de pression et consommation**")
+                        st.info("**Calculs de pression et de consommation**")
                         ##########################################################################################
 
                         pression_details = f"""
@@ -608,7 +608,7 @@ with col2:
                         st.markdown(pression_details)
 
                         ##########################################################################################
-                        st.info("**Calculs de temps et DTR**")
+                        st.info("**Calculs de temps**")
                         ##########################################################################################
 
                         temps_details = ""
@@ -619,21 +619,21 @@ with col2:
 
                         temps_details += f"""
                         
-**Durée de remontée libre :** {air_calc['duree_remontee']:.1f} minutes  
+**Durée de remontée (sans paliers) :** {air_calc['duree_remontee']:.1f} minutes  
 *Formule : Profondeur ÷ Vitesse de remontée = {profondeur} ÷ {vitesse_remontee} = {air_calc['duree_remontee']:.1f} minutes*
 
 **Durée des paliers :** {air_calc['duree_paliers']} minutes
 
-**Durée Totale Remontée (DTR) :** {air_calc['dtr']} minutes  
-*Formule : Temps des paliers + Temps de remontée = {air_calc['duree_paliers']} + {air_calc['duree_remontee']:.1f} = {air_calc['dtr']} minutes*
+**Durée totale de remontée (DTR) :** {air_calc['dtr']} minutes  
+*Formule : Durée de remontée + Durée des paliers = {air_calc['duree_remontee']:.1f} + {air_calc['duree_paliers']} = {air_calc['dtr']} minutes*
 
-**Temps total de plongée :** {air_calc['temps_total_plongee']} minutes  
+**Durée totale de plongée :** {air_calc['temps_total_plongee']} minutes  
 *Formule : Durée au fond + DTR = {duree_totale} + {air_calc['dtr']} = {air_calc['temps_total_plongee']} minutes*"""
                         
                         st.markdown(temps_details)
 
                         ##########################################################################################
-                        st.info("**Consommation d'air (équivalent surface)**")
+                        st.info("**Consommation d'air (en équivalent surface)**")
                         ##########################################################################################
 
                         conso_details = f"""
@@ -727,10 +727,10 @@ Pour une azote résiduelle de {azote_info['azote']} et une profondeur de {profon
 
                         notes_pedago = f"""
 **Pourquoi la pression influence la consommation ?**  
-À {profondeur}m, vos poumons sont comprimés par {air_calc['pressure_max']} fois plus que en surface. Pour les remplir, votre détendeur doit fournir de l'air à la même pression que l'eau environnante.
+À {profondeur}m, vos poumons sont comprimés {air_calc['pressure_max']} fois plus qu'en surface. Pour les remplir, votre détendeur doit fournir de l'air à la même pression que l'eau environnante.
 
-**Pourquoi calculer l'équivalent surface ?**  
-Les volumes sont exprimés en "équivalent surface" car c'est ainsi qu'on mesure l'air comprimée dans une bouteille. 1 litre d'air à {profondeur}m représente {air_calc['pressure_max']} litres en surface.
+**Pourquoi calculer en équivalent-surface ?**  
+Les volumes sont exprimés en "équivalent surface" pour effectuer les calculs à une pression standard de 1 bar. 1 litre d'air à {profondeur}m représente {air_calc['pressure_max']} litres en surface.
 
 **Qu'est-ce que la pression de décollage ?**  
 La pression de décollage ({air_remaining['pression_decollage']} bars) est la pression restante dans votre bloc au moment où vous commencez la remontée. C'est un indicateur utile pour vérifier si vous avez assez d'air pour effectuer la remontée et les paliers en toute sécurité.
