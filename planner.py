@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import os
 
-data_1 = 'data/mn90_1csv' # Table de paliers
+data_1 = 'data/mn90_1.csv' # Table de paliers
 data_2 = 'data/mn90_2.csv' # Table d'azote résiduelle
 data_3 = 'data/mn90_3.csv' # Table de majoration
 
