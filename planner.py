@@ -14,7 +14,7 @@ data_2 = 'data/mn90_2.csv' # Table d'azote résiduelle
 data_3 = 'data/mn90_3.csv' # Table de majoration
 
 ##########################################################################################
-# Configuration de la page
+# Configuration de la page et chargement du CSS
 ##########################################################################################
 
 st.set_page_config(
@@ -23,97 +23,11 @@ st.set_page_config(
     layout="wide"
 )
 
-##########################################################################################
-# Feuille de style CSS
-##########################################################################################
-
-st.markdown("""
-<style>
-
-    h1 { 
-        font-size: 1.8rem !important; 
-        margin-bottom: 0.5rem !important; 
-        margin-top: 1.5rem !important;
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
-        color: white !important;
-        padding: 1rem !important;
-        border-radius: 0.5rem !important;
-        text-align: center !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-    }
-    h2 { 
-        font-size: 1.3rem !important; 
-        margin-bottom: 0.4rem !important; 
-        margin-top: 0.6rem !important;
-        background-color: #d1ecf1 !important;
-        color: #0c5460 !important;
-        padding: 0.8rem !important;
-        border-radius: 0.5rem !important;
-        text-align: center !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-        border: 1px solid #bee5eb !important;
-    }
-    h3 { 
-        font-size: 1.1rem !important; 
-        margin-bottom: 0.3rem !important; 
-        margin-top: 0.4rem !important;
-    }
-    
-    [data-testid="metric-container"] {
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
-        padding: 0.3rem 0.5rem;
-        border-radius: 0.25rem;
-        margin: 0.15rem 0;
-    }
-    
-    [data-testid="metric-container"] [data-testid="metric-value"] {
-        font-size: 0.8rem !important;
-        font-weight: normal !important;
-    }
-    
-    [data-testid="metric-container"] [data-testid="metric-label"] {
-        font-size: 0.8rem !important;
-    }
-    
-    .block-container { 
-        padding-top: 1rem !important; 
-        padding-bottom: 1rem !important;
-    }
-    
-    .stAlert { 
-        margin: 0.1rem 0 !important; 
-        padding: 0.3rem !important; 
-        font-size: 0.9rem !important;
-    }
-    
-    .stSuccess, .stError, .stWarning, .stInfo { 
-        margin: 0.05rem 0 !important; 
-        padding: 0.25rem !important;
-    }
-    
-    .stSlider { margin: 0.2rem 0 !important; }
-    
-    .stMarkdown { margin: 0.3rem 0 !important; }
-    
-    .stDataFrame { margin: 0.5rem 0 !important; }
-    
-    .stButton > button { 
-        padding: 0.3rem 0.8rem !important; 
-        margin: 0.2rem 0 !important;
-    }
-    
-    .streamlit-expanderHeader { padding: 0.3rem !important; }
-    
-    .sidebar .sidebar-content { padding: 0.5rem 0.3rem; }
-    
-    .stColumn { padding: 0 0.5rem; }
-
-</style>
-""", unsafe_allow_html=True)
+with open("styles.css") as f:
+    st.markdown(f"<style>{ f.read() }</style>", unsafe_allow_html=True)
 
 ##########################################################################################
-# Fonctions de calcul
+# Fonctions Python de calcul
 ##########################################################################################
 
 @st.cache_data
