@@ -9,6 +9,10 @@ import pandas as pd
 import numpy as np
 import os
 
+data_1 = 'data/mn90_1csv' # Table de paliers
+data_2 = 'data/mn90_2.csv' # Table d'azote résiduelle
+data_3 = 'data/mn90_3.csv' # Table de majoration
+
 ##########################################################################################
 # Configuration de la page
 ##########################################################################################
@@ -116,8 +120,8 @@ st.markdown("""
 def load_mn90_tables():
     """Charge les tables MN90 depuis le fichier CSV"""
     try:
-        if os.path.exists('mn90_1.csv'):
-            df = pd.read_csv('mn90_1.csv')
+        if os.path.exists(data_1):
+            df = pd.read_csv(data_1)
             return df
         else:
             st.error("Fichier mn90_1.csv non trouvé")
@@ -130,8 +134,8 @@ def load_mn90_tables():
 def load_azote_table():
     """Charge la table d'azote résiduelle depuis le fichier CSV"""
     try:
-        if os.path.exists('mn90_2.csv'):
-            df = pd.read_csv('mn90_2.csv', index_col='GPS')
+        if os.path.exists(data_2):
+            df = pd.read_csv(data_2, index_col='GPS')
             return df
         else:
             st.error("Fichier mn90_2.csv non trouvé")
@@ -144,8 +148,8 @@ def load_azote_table():
 def load_majoration_table():
     """Charge la table de majoration depuis le fichier CSV"""
     try:
-        if os.path.exists('mn90_3.csv'):
-            df = pd.read_csv('mn90_3.csv')
+        if os.path.exists(data_3):
+            df = pd.read_csv(data_3)
             return df
         else:
             st.error("Fichier mn90_3.csv non trouvé")
